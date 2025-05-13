@@ -148,8 +148,6 @@ into #num_analysis1
 from dbo.campaigns
 group by (contacts_current + contacts_total_prev)
 
-			select * from #num_analysis1
-
 -- drop table if exists #num_analysis2;
 
 select
@@ -247,8 +245,8 @@ select
 from dbo.campaigns
 )
 select
-	contacts_total_prev_band,
-	contacts_current_band,
+	contacts_total_prev_band, -- given this
+	contacts_current_band, -- does this vary in successes / success rate generated?
 	count(*) group_size,
 	sum(success) successes
 into #level_analysis1
