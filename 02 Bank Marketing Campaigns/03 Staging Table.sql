@@ -1,4 +1,11 @@
 /*
+Version changes:
+- Convert column datatypes
+- Place into working table dbo.campaigns
+- Protect staging table against edits
+*/
+
+/*
 Apply transformations to staging table to produce usable working table upon which analysis may be conducted.
 */
 
@@ -23,29 +30,19 @@ Justification (2 - 5): enhance clarity of column purpose; more aptly match data 
 
 Justification: enable aggregations, easier filtering
 
-7) Edit month column to be as a number rather than abbreviation
+7) Ensure datatype of columns in (6) is explicitly tinyint, so that mathematical operations may be carried out on them.
+I.e. as they have been brought in as type nvarchar, and '0' and '1' are admitted by nvarchar, the datatype will not automatically change.
 
-Justification: simpler filtering, cleaner look, easier to sequence
+8) Edit month column to be as a number rather than abbreviation.
+
+Justification: simpler filtering, cleaner look, easier to sequence.
 */
 
 use bank_marketing
 go
+--drop table dbo.campaigns_stg
 
--- 1) Create staging table 
-
-/*
-Option 1: do not explicitly create staging table first, but simply select * into staging from ingested,
-then apply edits to add identity column and change column names.
-Possibly wrap these edits in transaction statements to enable rollback / explicit commits
-
-Rejected:
-- Loss of control or at least awareness over datatypes and nullability
-
-Option 2: create table anew 
-
-Accepted.
-
-*/
+-- 1) Create staging table - with newly chosen column names and datatypes and data values
 
 SET ANSI_NULLS ON
 GO
@@ -59,23 +56,23 @@ CREATE TABLE [dbo].[campaigns_stg](
 	[job] [nvarchar](50) NOT NULL,
 	[marital] [nvarchar](50) NOT NULL,
 	[education] [nvarchar](50) NOT NULL,
-	[default] [nvarchar](50) NOT NULL,
+	[default] [tinyint] NOT NULL,
 	[balance] [int] NOT NULL,
-	[housing] [nvarchar](50) NOT NULL,
-	[loan] [nvarchar](50) NOT NULL,
+	[housing] [tinyint] NOT NULL,
+	[loan] [tinyint] NOT NULL,
 	[contact] [nvarchar](50) NOT NULL,
 	[day] [tinyint] NOT NULL,
-	[month] [nvarchar](50) NOT NULL,
+	[month] [tinyint] NOT NULL,
 	[duration] [smallint] NOT NULL,
 	[contacts_current] [tinyint] NOT NULL,
 	[days_since_prev] [smallint] NOT NULL,
 	[contacts_total_prev] [smallint] NOT NULL,
 	[poutcome] [nvarchar](50) NOT NULL,
-	[success] [nvarchar](50) NOT NULL
+	[success] [tinyint] NOT NULL
 ) ON [PRIMARY]
 GO
 
--- 2) Insert into staging from ingested
+-- 2) Insert into staging from ingested, and into working from staging
 
 /*
 Whilst extremely unlikely, cannot technically guarantee that (hypothetical) new entries into campaigns are unique/not on the basis of existing columns provided.
@@ -99,23 +96,13 @@ in which there will in fact be no future insertions.
 Technically then, option 1 is also valid. However this seems at least closer to a production-level workaround, even if it is not so in actuality.
 */
 
--- 2a) Create log table for insertion of items from ingested into staging:
+-- 2a) Create log table for insertion of items from ingested into staging and insertion from staging into working:
 
--- Table must be created in separate script to prevent 'aready exists' error.
--- Below in comments for reference:
+-- Flag table must be created in separate script to prevent 'aready exists' error.
+-- See Staging Insertion Flag.sql
 
-/*
-create table dbo.campaign_insertion_flag
-(
-flag_name VARCHAR(100) PRIMARY KEY,
-flag_value BIT
-);
-
-insert into dbo.campaign_insertion_flag (flag_name, flag_value)
-values ('Insertion into staging', 0);
-*/
-
--- 2b) Logic to lock staging from further insertions after the initial one:
+-- 2b) Logic to lock staging and working from further insertions after the initial one.
+-- Therefore, must rebuild this flag table each time in the other script, to force value = 0 and enable insertion
 
 if not exists
 (
@@ -125,7 +112,29 @@ where flag_name = 'Insertion into staging' and flag_value = 1
 
 begin
 	insert into dbo.campaigns_stg
-	select * from dbo.campaigns_ingest;
+		(age, job, marital, education, [default], balance, housing, loan, contact, day, month, duration, contacts_current, days_since_prev, contacts_total_prev, poutcome, success)
+	select
+		
+		[age],
+		[job],
+		[marital],
+		[education],
+		case when [default] = 'yes' then 1 when [default] = 'no' then 0 else 99 end,
+		[balance],
+		case when [housing] = 'yes' then 1 when [housing] = 'no' then 0 else 99 end,
+		case when [loan] = 'yes' then 1 when [loan] = 'no' then 0 else 99 end,
+		[contact],
+		[day],
+		month(cast('01-' + [month] + '-2000' as date)),
+		[duration],
+		[campaign],
+		[pdays],
+		[previous],
+		[poutcome],
+		case when [y] = 'yes' then 1 when [y] = 'no' then 0 else 99 end
+	from dbo.campaigns_ingest;
+
+	select * into dbo.campaigns from dbo.campaigns_stg
 
 	update dbo.campaign_insertion_flag
 	set flag_value = 1
@@ -133,59 +142,39 @@ begin
 end
 
 select count(*) count_rows from [dbo].[campaigns_stg]; -- fixed to 45,211
+select count(*) count_rows from [dbo].[campaigns]; -- fixed to 45,211
 
--- 3) Edit columns to be binary 1/0 instead of y/n:
+go
 
-/*
-Option 1: could have simply embedded this logic into the insertion
+-- 3) Protect staging table against edits
 
-Rejected: overly-verbose code block for insertion, less explicit clarity over each column change
+-- 3a) DDL trigger protection against schema edits
 
-Option 2: edit columns after insertion
+create trigger trg_protect_campaigns_stg_schema
+on database
+for DROP_TABLE, ALTER_TABLE--, TRUNCATE_TABLE -- not a recognised cmd
+as
+begin
+    declare @event XML = eventdata();
 
-Accepted: opportunity to practice transaction statements...
-*/
+    if (
+        @event.value('(/EVENT_INSTANCE/ObjectName)[1]', 'SYSNAME') = 'campaigns_stg' AND
+        @event.value('(/EVENT_INSTANCE/SchemaName)[1]', 'SYSNAME') = 'dbo'
+    )
+    begin
+        raiserror ('Schema changes to dbo.campaigns_stg are not allowed.', 16, 1);
+        rollback;
+    end
+end;
+go
 
+-- 3b) DML trigger protection against data edits
 
--- i) transaction
-
-begin transaction;
-
-update dbo.campaigns_stg
-set "default" = case when "default" = 'yes' then 1 when "default" = 'no' then 0 else 99 end;
-
-update dbo.campaigns_stg
-set housing = case when housing = 'yes' then 1 when housing = 'no' then 0 else 99 end;
-
-update dbo.campaigns_stg
-set loan = case when loan = 'yes' then 1 when loan = 'no' then 0 else 99 end;
-
-update dbo.campaigns_stg
-set success = case when success = 'yes' then 1 when success = 'no' then 0 else 99 end;
-
--- ii) validate
-
-select distinct "default" from dbo.campaigns_stg;
-select distinct housing from dbo.campaigns_stg;
-select distinct loan from dbo.campaigns_stg;
-select distinct success from dbo.campaigns_stg;
-
-
--- iii) confirm
-
--- commit;
-
--- 4) Edit month to be as number not abbreviation
-
-/*
-Manually convert each month to valid datetime format 'dd-month-yyyy' and extract month datepart
-*/
-
-begin transaction;
-
-update dbo.campaigns_stg
-set "month" = month(cast('01-' + "month" + '-2000' as date)) from dbo.campaigns_stg;
-
-select distinct month from dbo.campaigns_stg;
-
--- commit;
+create trigger trg_protect_campaigns_stg_data
+on dbo.campaigns_stg
+after insert, update, delete
+as
+begin
+	raiserror ('Modifying data in dbo.campaigns_stg is not allowed.', 16, 1);
+    rollback;
+end;
