@@ -24,16 +24,3 @@ Preliminary analysis to confirm and validate aspects of the data dictionary whic
 ## 05 Analysis Proper
 
 Insights into ways of optimising market campaign approach(es).
-
-### Business Insights / Recommendations
-
-1) Prioritise age bands 18 - 25 and 65+:
-
-> select
-	age_band,
-	count(*) band_size,
-	sum(success) success,
-	sum(success) / cast(count(*) as float) success_rate
-from dbo.campaigns
-group by age_band
-order by 1
