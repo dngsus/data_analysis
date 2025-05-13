@@ -1,6 +1,7 @@
 # Source, data dictionary
 
 https://archive.ics.uci.edu/dataset/222/bank+marketing
+Uploaded as "bank-full.csv"
 
 # Project files run-through
 
