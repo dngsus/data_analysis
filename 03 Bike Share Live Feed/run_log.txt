@@ -1,0 +1,292 @@
+03/06/2025 10:55:02.17: Starting script 
+^C03/06/2025 10:55:38.80: Starting script 
+03/06/2025 10:55:52.57: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(1 rows affected)
+
+(799 rows affected)
+
+(799 rows affected)
+
+(799 rows affected)
+
+(799 rows affected)
+
+(799 rows affected)
+
+(799 rows affected)
+
+(799 rows affected)
+
+(799 rows affected)
+
+(799 rows affected)
+
+(799 rows affected)
+
+(799 rows affected)
+
+(1595 rows affected)
+
+(1595 rows affected)
+03/06/2025 10:55:55.91: SQL procedure finished 
+03/06/2025 10:58:19.37: Starting script 
+03/06/2025 10:58:22.18: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(1 rows affected)
+
+(1598 rows affected)
+
+(1598 rows affected)
+
+(1598 rows affected)
+
+(1598 rows affected)
+
+(1598 rows affected)
+
+(1598 rows affected)
+
+(1598 rows affected)
+
+(1598 rows affected)
+
+(1598 rows affected)
+
+(1598 rows affected)
+
+(1598 rows affected)
+
+(801 rows affected)
+
+(2396 rows affected)
+03/06/2025 10:58:22.63: SQL procedure finished 
+03/06/2025 10:59:10.74: Starting script 
+03/06/2025 10:59:12.45: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(1 rows affected)
+
+(2397 rows affected)
+
+(2397 rows affected)
+
+(2397 rows affected)
+
+(2397 rows affected)
+
+(2397 rows affected)
+
+(2397 rows affected)
+
+(2397 rows affected)
+
+(2397 rows affected)
+
+(2397 rows affected)
+
+(2397 rows affected)
+
+(2397 rows affected)
+
+(799 rows affected)
+
+(3195 rows affected)
+03/06/2025 10:59:12.87: SQL procedure finished 
+03/06/2025 13:50:43.50: Starting script 
+03/06/2025 13:50:50.54: Python script finished 
+
+(1 rows affected)
+
+(0 rows affected)
+
+(2 rows affected)
+
+(3196 rows affected)
+
+(3196 rows affected)
+
+(3196 rows affected)
+
+(3196 rows affected)
+
+(3196 rows affected)
+
+(3196 rows affected)
+
+(3196 rows affected)
+
+(3196 rows affected)
+
+(3196 rows affected)
+
+(3196 rows affected)
+
+(3196 rows affected)
+
+(800 rows affected)
+
+(3995 rows affected)
+03/06/2025 13:50:51.99: SQL procedure finished 
+03/06/2025 13:57:05.07: Starting script 
+03/06/2025 13:57:12.14: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(2 rows affected)
+
+(3995 rows affected)
+
+(3995 rows affected)
+
+(3995 rows affected)
+
+(3995 rows affected)
+
+(3995 rows affected)
+
+(3995 rows affected)
+
+(3995 rows affected)
+
+(3995 rows affected)
+
+(3995 rows affected)
+
+(3995 rows affected)
+
+(3995 rows affected)
+
+(799 rows affected)
+
+(4794 rows affected)
+03/06/2025 13:57:13.76: SQL procedure finished 
+03/06/2025 14:10:53.67: Starting script 
+03/06/2025 14:11:00.75: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(2 rows affected)
+
+(3995 rows affected)
+
+(4794 rows affected)
+
+(4794 rows affected)
+
+(4794 rows affected)
+
+(4794 rows affected)
+
+(4794 rows affected)
+
+(4794 rows affected)
+
+(4794 rows affected)
+
+(4794 rows affected)
+
+(3995 rows affected)
+
+(4794 rows affected)
+
+(4794 rows affected)
+
+(800 rows affected)
+
+(5594 rows affected)
+03/06/2025 14:11:02.66: SQL procedure finished 
+03/06/2025 15:21:06.08: Starting script 
+03/06/2025 15:21:13.82: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(2 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(7191 rows affected)
+
+(799 rows affected)
+
+(7989 rows affected)
+03/06/2025 15:21:14.63: SQL procedure finished 
+03/06/2025 15:45:08.74: Starting script 
+03/06/2025 15:45:13.30: Python script finished 
+Msg 207, Level 16, State 1, Server Daniel\SQLEXPRESS, Procedure dbo.sp_bikeshare_analysis, Line 237
+Invalid column name 'duration_flag'.
+03/06/2025 15:45:13.91: SQL procedure finished 
+03/06/2025 15:47:56.28: Starting script 
+03/06/2025 15:48:00.77: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(2 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(8789 rows affected)
+
+(799 rows affected)
+
+(5599 rows affected)
+03/06/2025 15:48:03.07: SQL procedure finished 

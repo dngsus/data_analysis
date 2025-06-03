@@ -1,5 +1,6 @@
 USE [bikeshare]
 GO
+--select * into dbo.station_status_backup from dbo.station_status
 
 SET ANSI_NULLS ON
 GO
@@ -8,6 +9,7 @@ SET QUOTED_IDENTIFIER ON
 GO
 
 CREATE TABLE [dbo].[station_status](
+	[stn_info_id] [int] NULL,
 	[station_id] [varchar](50) NOT NULL,
 	[is_installed] [tinyint] NULL,
 	[num_bikes_any_available] [tinyint] NULL,

@@ -1,6 +1,6 @@
 @echo off
 d:
-cd "D:\Code\Data Analysis\03 Bike Share\
+cd "D:\Code\Data Analysis\03 Bike Share Live Feed"
 echo %date% %time%: Starting script >> run_log.txt
 
 python "01 API Request Status, Info, Region.py" >> run_log.txt 2>&1

@@ -63,3 +63,16 @@ ALTER COLUMN is_renting TINYINT;
 ALTER TABLE station_status
 ALTER COLUMN is_returning TINYINT;
 */
+
+-- Need surrogate key on station_info to allow PBI to map station_id from station_status to station_id in station_info (with consideration for SCD):
+
+alter table dbo.station_info
+add info_id int identity(1,1) primary key;
+
+/*
+with one as
+(
+select station_id, count(*) count from dbo.station_info group by station_id having count(*) > 1
+) select * from dbo.station_info st join one on st.station_id = one.station_id
+order by st.station_id
+*/
