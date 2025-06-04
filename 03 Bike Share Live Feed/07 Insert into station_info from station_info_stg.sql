@@ -19,7 +19,9 @@ insert into dbo.station_info
 (
 station_id, name, short_name, capacity, region_id, lat, lon, valid_from, valid_to
 )
-select stg.station_id, stg.name, stg.short_name, stg.capacity, stg.region_id, stg.lat, stg.lon, stg.valid_from, null -- default valid_to is null := indefinitely true
+select stg.station_id, stg.name, stg.short_name, stg.capacity,
+case when stg.region_id is not null then stg.region_id else 0 end,
+stg.lat, stg.lon, stg.valid_from, null -- default valid_to is null := indefinitely true
 from station_info_stg stg
 left join station_info info
 	on stg.station_id = info.station_id
@@ -53,3 +55,47 @@ where info.valid_to IS NULL
        or info.lat <> stg.lat
        or info.lon <> stg.lon
   );
+
+/*
+For map visual, we want the 'average latitude/longitude of stations within respective regions' to represent the singular 'location' of each region for visual purposes.
+Can alternatively use auto locator in PBI, but this gives a more true-to-business view of where stations are.
+Ultimately rather minor cosmetics...
+
+It is known that stations can change due to changes to capacity: 
+select * from dbo.station_info where station_id = '08265124-1f3f-11e7-bf6b-3863bb334450'
+
+Assume lat/long however won't change.
+Therefore, only time the regional lat/lon needs updating is when there is a totally new station inserted into dbo.station_info.
+As of now, there is no way to tell if new insertion is for totally new station, or just updated pre-existing one.
+Nevertheless, both types of update are so infrequent, so doesn't really matter. So, if ever PK 'info_id' increase --> run update
+*/
+
+if
+	(select max(info_id) from dbo.station_info) -- as the PK, info_id automatically updates (increases) when new row inserted
+	> (select max(max_info_id) from dbo.station_info_updates)
+begin
+	with unique_info as -- station_info contains possible dupes of station_id.
+	-- If duplicates remained, then the final lat/lon would gravitate towards more severely duplicated stations.
+	(
+	select min(lat) lat, min(lon) lon, station_id, region_id
+	from dbo.station_info
+	group by station_id, region_id
+	),
+	two as
+	(
+	select reg.region_id, reg.name, avg(un.lat) lat, avg(un.lon) lon
+	from dbo.regions reg join unique_info un on reg.region_id = un.region_id
+	group by reg.region_id, reg.name
+	) 
+	update dbo.regions
+	set lat = two.lat,
+	lon = two.lon
+	from dbo.regions reg
+	join two on reg.region_id = two.region_id
+
+	-- Insert new entry into tracker
+	insert into dbo.station_info_updates
+	(max_info_id, updated)
+	values
+	((select max(info_id) from dbo.station_info), getdate())
+end
