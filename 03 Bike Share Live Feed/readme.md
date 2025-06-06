@@ -6,7 +6,9 @@
 
 Quasi-live monitoring of regional bikeshare station statuses based on station capacity using data from periodic API calls to enable sustained operational excellence.
 
-Note: in-progress
+Note: in-progress.
+
+VIDEO WALK-THROUGH 2025-06-06: https://vimeo.com/1091209127/572a70cd82?share=copy
 
 **Detail**
 
