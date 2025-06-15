@@ -1,13 +1,14 @@
 # Sources
 
-Dataset outline: 2018 - 2020 bookings for Hotel portfolio
+Definitions and background:
+https://www.sciencedirect.com/science/article/pii/S2352340918315191#s0005
+
+Data 2018 - 2020:
 https://absentdata.com/data-analysis/where-to-find-data/
 Uploaded as "hotel_revenue_historical-full-2.csv"
 
-Additional info on definitions:
+Data 2015 - 2017:
 https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-11/readme.md
-
-Above comes with older dataset, uploaded as "hotels.csv". This is not used in the current analysis.
 
 # Project Outline, Objectives
 
