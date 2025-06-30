@@ -35,4 +35,8 @@ overall we can diagnose a year-on-year issue with cancellation rates:
 
 ### Bookings with Lengthy Lead Times
 
+... to be completed
+
+
+
 
