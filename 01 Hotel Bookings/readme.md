@@ -20,4 +20,4 @@ EDA to clean and process data to derive insights into cancellation rates
 
 Rising Cancellations per Month and Cancellation Rate per Year 2018 - 2020
 
-![Test](chart.png)
+![Test](01_cancellations_over_time.png)
