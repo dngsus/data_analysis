@@ -18,6 +18,21 @@ EDA to clean and process data to derive insights into cancellation rates
 
 ## Trend
 
-Rising Cancellations per Month and Cancellation Rate per Year 2018 - 2020
+Rising Cancellations per Month and Cancellation Rate per Year 2018 - 2020:
 
-![Test](01_cancellations_over_time.png)
+![Cancellations Over Time](01_cancellations_over_time.png)
+
+YYD Cancellations in 2020 Exceed Those of 2019:
+
+![YTD Cancellations 2020 vs 2019](02_YTD_cancellations_2020_vs_2019.png)
+
+Whilst there are weak signs of certain seasonal effects influencing cancellation rates,<br>
+overall we can diagnose a year-on-year issue with cancellation rates:
+
+![03 Seasonal Level](03_seasonal_level.png)
+
+## Drivers
+
+### Bookings with Lengthy Lead Times
+
+
