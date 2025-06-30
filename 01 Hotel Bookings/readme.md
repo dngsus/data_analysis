@@ -10,6 +10,14 @@ Uploaded as "hotel_revenue_historical-full-2.csv"
 Data 2015 - 2017:
 https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-11/readme.md
 
-# Project Outline, Objectives
+# Brief
 
-Explore data to derive risks and opportunities, especially regarding revenue performance.
+EDA to clean and process data to derive insights into cancellation rates
+
+# Detail
+
+## Trend
+
+Rising Cancellations per Month and Cancellation Rate per Year 2018 - 2020
+
+![Test](01_cancellations_over_time.png)
