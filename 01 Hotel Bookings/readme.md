@@ -12,11 +12,17 @@ https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-11/re
 
 # Brief
 
-EDA to clean and process data to derive insights into cancellation rates
+EDA to clean and process data to derive insights into cancellation rates, propose actions:
+1) Cancellation volume and rate are rising 'recently' 2018 - 2020.
+2) (1) is driven mostly by bookings from 'Online TA' segment and bookings with longer lead times.
+3) (2) is an outcome of Online TA being the largest booking segment/channel, and long lead times being the most popular type of lead time. Plus, these two groupings having relatively high inherent cancellation rates.
+4) Furthermore, these qualities and therefore their impact on cancellations is rising. I.e. the volume of bookings originating from Online TA and long lead time bookings is rising, as is their cancellation rate.
+5) We observe too that the average lead time of bookings from Online TA is itself increasing, so these are not isolated booking patterns: bookings are 'worsening' on two joint fronts.
+6) Overall, offering online channels and long lead-times is still beneficial, as they are popular means of making bookings, and ultimately >50% of bookings from these sources are fulfiled, so it is worthwhile to stick to them. Vice versa it would be backward-thinking to get rid of them. Instead, focus should be on mitigation/management, e.g. discouraging cancellations through locking-in of favourable prices, perhaps more aggressiveness with pushing deposits, sending timely reminders to keep prospective bookings in mind (encourage customers to actually realise their plans made on a whim), etc.
 
 # Detail
 
-## Trend
+## Cancellation Trends Over Time
 
 Rising Cancellations per Month and Cancellation Rate per Year 2018 - 2020:
 
