@@ -13,15 +13,24 @@ https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-11/re
 # Brief
 
 EDA to clean and process data to derive insights into cancellation rates, propose relevant actions in accordance.
-This project therefore answeres hypothetical business questions like "Are there particular types of bookings or customers with increasing cancellation trends which mitigation efforts should be focused on ?"
+This project therefore answers hypothetical business questions like:
+- "Are there particular channels/groups/etc. with increasing cancellation trends which mitigation efforts should be focused on?"
+- [To do: add revenue implications into analysis to add depth to above]
+- "Why are our forecasting models for occupancy losing accuracy?
 
-The structural outline of findinds and recommendations is as such:
+**Outline of findings:**
+
 1) Cancellation volume and rate are rising 'recently' 2018 - 2020.
-2) (1) is driven mostly by bookings from 'Online TA' segment and bookings with longer lead times.
-3) (2) is an outcome of Online TA being the largest booking segment/channel, and long lead times being the most popular type of lead time. Plus, these two groupings having relatively high inherent cancellation rates.
-4) Furthermore, these qualities and therefore their impact on cancellations is rising. I.e. the volume of bookings originating from Online TA and long lead time bookings is rising, as is their cancellation rate.
+2) (1) is driven mostly by bookings from 'Online TA' segment and bookings with longer lead times: these types of bookings make up a large proportion of cancellations.
+3) (2) is intensifying over time: in the time period of interest, these two booking types are making up an increasing proportion of per-year cancellations.
+4) (3) is an outcome of these types of bookings being popular in general (make up a large proportion of overall bookings), and have relatively high cancellation rates.<br>Furthermore, both these aspects (popularity, propensity to cancel) are increasing in the time period of interest (with slight exceptions).
 5) We observe too that the average lead time of bookings from Online TA is itself increasing, so these are not isolated booking patterns: bookings are 'worsening' on two joint fronts.
-6) Overall, offering online channels and long lead-times is still beneficial, as they are popular means of making bookings, and ultimately >50% of bookings from these sources are fulfiled, so it is worthwhile to stick to them. Vice versa it would be backward-thinking to get rid of them. Instead, focus should be on mitigation/management, e.g. discouraging cancellations through locking-in of favourable prices, perhaps more aggressiveness with pushing deposits, sending timely reminders to keep prospective bookings in mind (encourage customers to actually realise their plans made on a whim), etc.
+
+**Recommendations derived:**
+
+1) Overall, offering online channels and long lead-times is beneficial, as they are popular means of making bookings, and ultimately >50% of bookings from these sources are fulfiled, so it is worthwhile to stick to them. In other words, it would be backward-thinking and extreme to get rid of them. Instead, focus should be on mitigation/management, and calibrating forecasting models to be sensitive to these types of bookings.
+2) Tame cancellation rate through e.g. locking-in of favourable prices conditional on non-refundability, being more aggresive with reminders to keep prospective bookings front of mind for customers (encourage customers to actually convert plans into completed trips), etc. Naturally, these are in concept applicable universally across all booking types, and indeed it is probably a good idea (reduce cancellation rates across all channels) - point is to enact these extra hard for the booking types on hand. E.g. especially generous early lock-in prices for Online TA. E.g. adjust schedule of automated reminers when lead time detected as extremely long.
+3) Calibrate forecasting model for occupancy rates: if not already segmented on lead time and market segment, then do so. Also note that I myself engineered the lead time group categories, which may or may not help clear the picture / advise a more useful model. If the model was already segmented on these factors, then fine-tune accordingly.
 
 # Detail
 
