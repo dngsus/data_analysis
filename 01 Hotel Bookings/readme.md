@@ -12,7 +12,10 @@ https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-11/re
 
 # Brief
 
-EDA to clean and process data to derive insights into cancellation rates, propose actions:
+EDA to clean and process data to derive insights into cancellation rates, propose relevant actions in accordance.
+This project therefore answeres hypothetical business questions like "Are there particular types of bookings or customers with increasing cancellation trends which mitigation efforts should be focused on ?"
+
+The structural outline of findinds and recommendations is as such:
 1) Cancellation volume and rate are rising 'recently' 2018 - 2020.
 2) (1) is driven mostly by bookings from 'Online TA' segment and bookings with longer lead times.
 3) (2) is an outcome of Online TA being the largest booking segment/channel, and long lead times being the most popular type of lead time. Plus, these two groupings having relatively high inherent cancellation rates.
