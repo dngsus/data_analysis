@@ -13,10 +13,11 @@ https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-11/re
 # Brief
 
 EDA to clean and process data to derive insights into cancellation rates, propose relevant actions in accordance.
-This project therefore answers hypothetical business questions like:
+This project therefore addresses hypothetical business questions like:
 - "Are there particular channels/groups/etc. with increasing cancellation trends which mitigation efforts should be focused on?"
 - [To do: add revenue implications into analysis to add depth to above]
-- "Why are our forecasting models for occupancy losing accuracy?
+- "Why are our forecasting models for occupancy losing accuracy? / "Which types of bookings are more liable to cancel?"
+- "What are the trends in customer cancellations?"
 
 **Outline of findings:**
 
@@ -31,6 +32,20 @@ This project therefore answers hypothetical business questions like:
 1) Overall, offering online channels and long lead-times is beneficial, as they are popular means of making bookings, and ultimately >50% of bookings from these sources are fulfiled, so it is worthwhile to stick to them. In other words, it would be backward-thinking and extreme to get rid of them. Instead, focus should be on mitigation/management, and calibrating forecasting models to be sensitive to these types of bookings.
 2) Tame cancellation rate through e.g. locking-in of favourable prices conditional on non-refundability, being more aggresive with reminders to keep prospective bookings front of mind for customers (encourage customers to actually convert plans into completed trips), etc. Naturally, these are in concept applicable universally across all booking types, and indeed it is probably a good idea (reduce cancellation rates across all channels) - point is to enact these extra hard for the booking types on hand. E.g. especially generous early lock-in prices for Online TA. E.g. adjust schedule of automated reminers when lead time detected as extremely long.
 3) Calibrate forecasting model for occupancy rates: if not already segmented on lead time and market segment, then do so. Also note that I myself engineered the lead time group categories, which may or may not help clear the picture / advise a more useful model. If the model was already segmented on these factors, then fine-tune accordingly.
+
+# Housekeeping
+
+**Assumptions made in structuring and cleaning the project:**
+
+1) Assume SC meals (self-catered) have not had their price written in error, despite somehow costing more than full-board
+2) Assume 'adr' (avg daily rate) is to be multiplied by nights stayed to find overall room rental revenue per booking, exclusive of meal costs
+- See source: "Average Daily Rate as defined by dividing the sum of all _lodging_ transactions by the total number of staying nights"
+3) Assume meals are applied to every non-baby guest in the same booking, for every day (nights + 1) spent, i.e. number of non-baby pax * price of meal package * nights spent = total meal cost to customer
+4) Assume Null children --> 0 children
+5) Assume bookings of zero pax are unsuable data
+6) Assume bookings with zero adr (avg daily rate) yet which are not cancelled are unusable data
+
+[To do: consider scale of above issues, and if not major, leave in the dataset and flag later for review with relevant colleagues, to better simulate a 'real' working environment]
 
 # Detail
 
