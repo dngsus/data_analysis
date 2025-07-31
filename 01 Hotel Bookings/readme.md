@@ -12,20 +12,21 @@ https://github.com/rfordatascience/tidytuesday/blob/main/data/2020/2020-02-11/re
 
 # Brief
 
-EDA to clean and process data to derive insights into cancellation rates, propose relevant actions in accordance.
+EDA which first reveals cancellation activity patterns, diagnoses drivers, and proposes relevant actions in accordance to navigate these findings.
 This project therefore addresses hypothetical business questions like:
-- "Are there particular channels/groups/etc. with increasing cancellation trends which mitigation efforts should be focused on?"
+- "Are there particular channels/groups/etc. with increasing cancellation trends for which mitigation efforts should be focused on?"
 - [To do: add revenue implications into analysis to add depth to above]
 - "Why are our forecasting models for occupancy losing accuracy? / "Which types of bookings are more liable to cancel?"
 - "What are the trends in customer cancellations?"
 
-- Metric of interest: (customer-originated) cancellations
-- Dimensions of interest: lead time, market segment (channel)
-- Date scope: allow dataset patterns to inform date window of interest (found to be 2018 - 2020)
-- Product scope: [to do: consider segmentations along hotel type, duration stayed, num pax, etc.]
+- Metric of interest: cancellations (be they originated by the customer or the hotel)
+- Dimensions of interest: lead time. Market segment (channel) in progress.
+- Date scope: 2015 - 2020 (entire dataset)
+- Product scope: [to do: split by hotel type]
 
-- Audience: operational manager(s), data science leads (re: forecasting models)
-- Format: I envisage this as a long-form data story, e.g. narration of below highlights, or perhaps converted to a ppt.
+- Audience: operational managers (occupancy and staffing implications), data science leads (re: forecasting models), finance colleagues (revenue forecasting)
+- Format: I envisage this as a relatively long-form story, as the problem statement is not superexplicit up-front. I.e. the EDA must within itself generate issues to pursue.
+In this case, that cancellation behaviour in recent years is increasing.
 
 **Outline of findings:**
 
