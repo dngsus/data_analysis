@@ -82,6 +82,15 @@ As notes for the above, consider that within each year, 'Summer' is alway the gr
 Also consider that whenever season can be held constant, the year vs year performance generally mirrors that of the year-level analysis,
 thus suggesting the years themselves have inherent cancellation traits indiscriminate of season.
 
+The financial implications of the cancellations are familiar at the year level:
+
+![Financial Implications](05_financial_implications_year_level.png)
+
+I.e. since cancellation volume (and rates) are going up, so too is the absolute and relative amount of revenue lost per year.
+We do not have a fortuitous situation whereby the latest cancellations were all of very low value and/or non-refundable, etc.
+
+[To do: repeat for year-season level] -- possibly a bit overkill?
+
 ## Bookings with Lengthy Lead Times are a Key Driver of Cancellation Behaviour Observed
 
 Generally, when a period's (particular year-season e.g. 2018-Spring) normalised cancellation volume was high, so too was the proportion of these cancellations represented by bookings with lengthy lead times:
