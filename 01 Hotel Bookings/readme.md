@@ -72,15 +72,26 @@ The same trends are largely observed at a year-season level of granularity, thou
 
 ![Year Season Level](02_cancellations_over_time_granular.png)
 
-It emerges that both cancellation rate and cancellation volume are affected by both season and year independently:
-
-![Rate vs Time](03_rate_vs_time.png)
-
-![Vol vs Time](04_vol_vs_time.png)
-
-As notes for the above, consider that within each year, 'Summer' is alway the greatest value, i.e. Summer is inherently more cancellation-heavy than the other seasons.
+It emerges that both cancellation rate and cancellation volume are affected by both season and year independently.
+This is seen in the more detailed analysis in the actual notebook: see charts "03_rate_vs_time.png" and "04_vol_vs_time.png".
+These charts show that within each year, 'Summer' is alway the greatest value, i.e. Summer is inherently more cancellation-heavy than the other seasons.
 Also consider that whenever season can be held constant, the year vs year performance generally mirrors that of the year-level analysis,
 thus suggesting the years themselves have inherent cancellation traits indiscriminate of season.
+
+<!--![Rate vs Time](03_rate_vs_time.png)
+
+![Vol vs Time](04_vol_vs_time.png)-->
+
+As notes for the above, consider that 
+
+The financial implications of the cancellations are familiar at the year level:
+
+![Financial Implications](05_financial_implications_year_level.png)
+
+I.e. since cancellation volume (and rates) are going up, so too is the absolute and relative amount of revenue lost per year.
+We do not have a fortuitous situation whereby the latest cancellations were all of very low value and/or non-refundable, etc.
+
+[To do: repeat for year-season level] -- possibly a bit overkill?
 
 ## Bookings with Lengthy Lead Times are a Key Driver of Cancellation Behaviour Observed
 
@@ -97,13 +108,12 @@ The time-sensitive changes to cancellation rate of these lengthy lead time booki
 ![long lead time rates](07_long_lead_time_bk_rate_impact.png)
 
 Observe above that the two data lines aren't at all perfectly aligned in shape.
-That said, holding season constant, e.g. 2018-Summer vs 2019-Summer,
-cancellation rate does correspond to (% contribution towards) cancellation volumes.
+That said, holding season constant, e.g. 2018-Summer vs 2019-Summer, cancellation rate does correspond to (% contribution towards) cancellation volumes.
 E.g. each Summer, the proportion of cancellations represented by Long / Very Long increases, and so does their cancellation rate. In fact, this is true of every season-by-year.
 So, there is a match in that limited sense.
 
 ## Recommendations Based on Lead-Time vs Cancellations Findings
 
-Refer to **Recommendations in Brief**
+Refer to **Recommendations in Brief** section written above.
 
 
