@@ -64,7 +64,7 @@ df_regions.to_sql(
 )
 
 # Create structure of actual working table to load selected data from staging into
-# Comment out - create once and done ... although 'replace' probably covers this anyway? ... Later figure out
+# Comment out - create once and done ... although 'replace' probably covers this anyway? ... Later figure out. At worst, this is redundant, but not critical
 
 # df_regions.head(0).to_sql(
 #     name="regions",
@@ -95,6 +95,7 @@ with engine.begin() as conn:
 stn_info_json = request(baseurl, "station_information.json")
 
 # Will need to find information from every station --> loop.
+
 # How many stations are there?
 
 num_stations_info = len(stn_info_json["data"]["stations"])

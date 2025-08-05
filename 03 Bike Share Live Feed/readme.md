@@ -4,7 +4,7 @@
 
 **Brief**
 
-Quasi-live monitoring of regional bikeshare station statuses based on station capacity using data from periodic API calls to enable sustained operational excellence.
+Quasi-live (currently configured to run at most every 15 minutes unless manually triggered) monitoring of regional bikeshare station statuses based on station capacity using data from periodic API calls to enable sustained operational excellence.
 
 Note: in-progress.
 

@@ -9,7 +9,7 @@ GO
 -- =============================================
 -- Author:		<Dan>
 -- Create date: <2025-06-02>
--- Description:	<Combined actions of files '04 Insert into station_info from station_info_stg' and '08 Shaping for Data Analysis>
+-- Description:	<Combined actions of files '07 Insert into station_info from station_info_stg' and '09 Calculate Columns for Data Analysis'>
 -- =============================================
 
 
@@ -22,15 +22,11 @@ BEGIN
 /*
 station_info_stg is from .py script.
 
-Need do insertion logic into station_info table here, including formation of valid_to column
-*/
-
-/*
 Insert into final from staging if:
 - Totally new station_id
 - Existing station_id, but information e.g. capacity has changed (SCD)
 
-Retain (station_id + info) in final even if does not exist in staging
+Retain (station_id + info) in final even if does not exist in staging (do not wipe from final table if latest pull into staging doesn't include it anymore)
 */
 
 insert into dbo.station_info
@@ -43,10 +39,10 @@ stg.lat, stg.lon, stg.valid_from, null -- default valid_to is null := indefinite
 from station_info_stg stg
 left join station_info info
 	on stg.station_id = info.station_id
-	and info.valid_to is null -- specifically comparing SCD of API call vs latest saved entry. I.e. that particular row
+	and info.valid_to is null -- specifically comparing details of latest call vs latest saved entry.
 where
 	info.station_id is null -- totally new station_id
-	or ( -- or, any new information about the station_id
+	or ( -- or, any new information about an existing station_id (based on matching station_id)
        info.name <> stg.name
 	   or info.short_name <> stg.short_name
        or info.capacity <> stg.capacity
@@ -76,7 +72,7 @@ where info.valid_to IS NULL
 
 /*
 For map visual, we want the 'average latitude/longitude of stations within respective regions' to represent the singular 'location' of each region for visual purposes.
-Can alternatively use auto locator in PBI, but this gives a more true-to-business view of where stations are.
+Can alternatively use auto locator in PBI, but this gives a more true-to-life view of where stations are.
 Ultimately rather minor cosmetics...
 
 It is known that stations can change due to changes to capacity: 
@@ -84,25 +80,26 @@ select * from dbo.station_info where station_id = '08265124-1f3f-11e7-bf6b-3863b
 
 Assume lat/long however won't change.
 Therefore, only time the regional lat/lon needs updating is when there is a totally new station inserted into dbo.station_info.
-As of now, there is no way to tell if new insertion is for totally new station, or just updated pre-existing one.
-Nevertheless, both types of update are so infrequent, so doesn't really matter. So, if ever PK 'info_id' increase --> run update
+As of now, there is no way to tell if a new insertion is for totally new station, or just updated pre-existing one.
+Nevertheless, both types of update are so infrequent, so doesn't really matter (immaterial impact on compute). So, if ever the count of PK 'info_id' increase --> run update
 */
 
 if
 	(select max(info_id) from dbo.station_info) -- as the PK, info_id automatically updates (increases) when new row inserted
 	> (select max(max_info_id) from dbo.station_info_updates)
 begin
-	with unique_info as -- station_info contains possible dupes of station_id.
+	with unique_info as -- station_info contains possible dupes of station_id (historic record)
 	-- If duplicates remained, then the final lat/lon would gravitate towards more severely duplicated stations.
 	(
-	select min(lat) lat, min(lon) lon, station_id, region_id
+	select min(lat) lat, min(lon) lon, station_id, region_id -- again, assume lat/lon of a station won't change .. otherwise need figure a way to select specifically the latest lat/lon, not just the min
 	from dbo.station_info
 	group by station_id, region_id
 	),
 	two as
 	(
 	select reg.region_id, reg.name, avg(un.lat) lat, avg(un.lon) lon
-	from dbo.regions reg join unique_info un on reg.region_id = un.region_id
+	from dbo.regions reg
+		join unique_info un on reg.region_id = un.region_id
 	group by reg.region_id, reg.name
 	) 
 	update dbo.regions
@@ -121,12 +118,12 @@ end
 ---------------------- Part 2: transform table for analysis ----------------------
 
 /*
-Further transformations of tables to enable analysis, displayed in table dbo.station_status_by_day
+Further transformations of tables to enable analysis, displayed in 'final' table dbo.station_status_by_day
 */
 
 declare @today date = cast(getdate() as date);
 
-delete from dbo.station_status where report_date = '1970-01-01';
+delete from dbo.station_status where report_date = '1970-01-01'; -- investigate this error
 
 /*
 (1) Populate columns
@@ -140,12 +137,12 @@ with temp as
 (
 select
 	*,
-	CONVERT(DATETIME2,CONVERT(VARBINARY(6),report_time)+CONVERT(BINARY(3),report_date)) new_col
+	CONVERT(DATETIME2,CONVERT(VARBINARY(6),report_time) + CONVERT(BINARY(3),report_date)) new_col
 from dbo.station_status
 )
 update temp
 set report_datetime = new_col
-where cast(retrieved_at as date) = @today; -- once up and running, only want to use compute to update a limited set of rows
+where cast(retrieved_at as date) = @today; -- once up and running, only want to use compute to update a limited set of rows - just the insertions from today
 -- where station_id = '000_test' and capacity is null
 
 -- Populate stn_info_key to enable match between status.stn_info_id = info.info_id
