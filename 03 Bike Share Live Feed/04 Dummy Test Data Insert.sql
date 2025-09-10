@@ -9,8 +9,7 @@ values
 select * from dbo.station_info where station_id = '000_test'
 
 
---delete from  dbo.station_status
---where station_id = '000_test'
+--delete from  dbo.station_status where station_id = '000_test'
 
 insert into dbo.station_status -- overnight edge case
 (station_id, is_installed, num_bikes_any_available, num_bikes_pedal_available, num_bikes_elec_available, is_renting,
@@ -26,11 +25,23 @@ num_docks_available, is_returning,
 report_date, report_time, retrieved_at 
 )
 values
-('000_test', 1, 5, 3, 2, 1, 5, 1, '2025-05-31', '00:10:00.0000000', '2025-05-31 00:11:00.000')
+('000_test', 1, 3, 1, 2, 1, 7, 1, '2025-05-31', '00:10:00.0000000', '2025-05-31 00:11:00.000')
+
+insert into dbo.station_status -- reading right before overnight edge case
+(station_id, is_installed, num_bikes_any_available, num_bikes_pedal_available, num_bikes_elec_available, is_renting,
+num_docks_available, is_returning,
+report_date, report_time, retrieved_at 
+)
+values
+('000_test', 1, 4, 2, 2, 1, 6, 1, '2025-05-30', '23:50:00.0000000', '2025-05-30 23:51:00.000')
+
+select * from dbo.station_status where station_id = '000_test' order by report_date, report_time
+
 
 insert into dbo.station_status -- rush hour = yes
 (station_id, is_installed, num_bikes_any_available, num_bikes_pedal_available, num_bikes_elec_available, is_renting,
-num_docks_available, is_returning,
+
+ilable, is_returning,
 report_date, report_time, retrieved_at 
 )
 values

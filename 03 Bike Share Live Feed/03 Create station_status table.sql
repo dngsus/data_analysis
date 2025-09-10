@@ -15,6 +15,8 @@ CREATE TABLE [dbo].[station_status](
 	[num_bikes_any_available] [tinyint] NULL,
 	[num_bikes_pedal_available] [tinyint] NULL,
 	[num_bikes_elec_available] [tinyint] NULL,
+	-- [prev_bikes_any_available] [tinyint] NULL,
+	--[bikes_delta_any] [tinyint] NULL,
 	[is_renting] [tinyint] NULL,
 	[num_docks_available] [tinyint] NULL,
 	[is_returning] [tinyint] NULL,
@@ -35,3 +37,9 @@ CREATE TABLE [dbo].[station_status](
 	[availability_group] [varchar](50) NULL
 ) ON [PRIMARY]
 GO
+
+alter table dbo.station_status
+add [bikes_any_delta] [smallint];
+
+alter table dbo.station_status
+add [prev_bikes_any_available] [tinyint];

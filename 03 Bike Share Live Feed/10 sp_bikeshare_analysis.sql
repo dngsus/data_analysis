@@ -1,5 +1,3 @@
--- TEST
-
 use bikeshare
 go
 
@@ -122,10 +120,10 @@ end
 ---------------------- Part 2: transform table for analysis ----------------------
 
 /*
-Further transformations of tables to enable analysis, displayed in 'final' table dbo.station_status_by_day
+Further transformations of tables to enable analysis, displayed in table dbo.station_status_by_day
 */
 
-declare @today date = cast(getdate() as date);
+declare @now datetime = getdate();
 
 delete from dbo.station_status where report_date = '1970-01-01'; -- investigate this error
 
@@ -146,14 +144,16 @@ select
 from dbo.station_status
 )
 update temp
-set report_datetime = new_col
-where cast(retrieved_at as date) = @today; -- once up and running, only want to use compute to update a limited set of rows - just the insertions from today
+set report_datetime = new_col -- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now); -- once up and running, only want to use compute to update a limited set of rows - just the insertions from the past hour
 -- where station_id = '000_test' and capacity is null
 
--- Populate stn_info_key to enable match between status.stn_info_id = info.info_id
--- Since info.station_id is not unique, as there may be SCD
--- I.e. station_id refers to a station, but the 'same' (underlying) station may exist in various 'information statuses' due to SCD
--- Need this here as future UPDATE statements are dependent
+/*
+Populate stn_info_key to enable match between status.stn_info_id = info.info_id.
+info.station_id is not unique, as there may be SCD.
+I.e. station_id refers to a station, but the 'same' (underlying) station may exist in various 'information statuses' (represented by a distinct info_id) due to SCD
+Need this here as future UPDATE statements are dependent
+*/
 
 update stat
 set stat.stn_info_id = info.info_id
@@ -163,7 +163,7 @@ join dbo.station_info info
 	and stat.report_datetime >= info.valid_from
 	and (stat.report_datetime < info.valid_to or info.valid_to is null)
 	-- Realistically, only "info.valid_to is null" is in play, since the default value of valid_to is null
-where cast(stat.retrieved_at as date) = @today; -- once up and running, only want to use compute to update a limited set of rows
+where retrieved_at>= dateadd(hour, -1, @now); -- once up and running, only want to use compute to update a limited set of rows
 
 -- Helper column: lag function to retrieve previous reading from station
 
@@ -175,8 +175,8 @@ select
 from dbo.station_status
 )
 update temp
-set prev_report_datetime = checker
-where cast(retrieved_at as date) = @today; 
+set prev_report_datetime = checker -- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now); 
 -- where station_id = '000_test' and capacity is null
 
 -- Final column: calculate the difference in report date-times
@@ -184,21 +184,21 @@ where cast(retrieved_at as date) = @today;
 update dbo.station_status
 set status_duration_seconds =
 case when prev_report_datetime is not null then datediff(second, prev_report_datetime, report_datetime)
-else 0 end
-where cast(retrieved_at as date) = @today; 
+else 0 end -- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now); 
 -- and station_id = '000_test' and capacity is null;
 -- if null, then this is first ever record of the station_id, so status_duration_seconds is null
 
 /*
-Flag but don't delete entries where duration too long (can't safely assume dock availability changes)
-Can't delete, as this would break dataflow - after a single missed data pull, and subsequent deletion of incoming rows,
-new rows could never again 'survive'
+Flag but don't delete entries where duration too long (too long --> can't safely assume dock availability changes are valid --> must reject)
+Can't delete yet, as this would break dataflow - after a single missed data pull, and subsequent deletion of incoming rows,
+new rows could never again 'survive'. Instead, just selectively transfer the valid entries into the final table station_status_by_day
 */
 
 update dbo.station_status
 set duration_flag =
-case when status_duration_seconds <= 1800 then 0 else 1 end
-where cast(retrieved_at as date) = @today; 
+case when status_duration_seconds <= 1800 then 0 else 1 end -- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now); 
 
 -- Edge case - overnight reading: need attribute partial duration to last night and partial duration to today morning
 -- Requires split into two rows (yday vs today report_date)
@@ -209,8 +209,8 @@ set status_duration_yday =
 		when report_date = dateadd(d, 1, cast(prev_report_datetime as date)) 
 			then datediff(second, prev_report_datetime, report_date)
 		else NULL
-	end
- where cast(retrieved_at as date) = @today; 
+	end -- where station_id = '000_test'
+ where retrieved_at >= dateadd(hour, -1, @now); 
  -- where station_id = '000_test' and capacity is null
 
 update dbo.station_status
@@ -219,9 +219,34 @@ set [status_duration_today] =
 		when status_duration_yday is not null
 			then status_duration_seconds - status_duration_yday
 		else status_duration_seconds
-	end
-where cast(retrieved_at as date) = @today; 
+	end -- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now); 
  -- where station_id = '000_test' and capacity is null
+
+-- Helper column: lag function to retrieve previous bike count from station
+
+with temp as 
+(
+select
+	*,
+	lag (num_bikes_any_available) over (partition by station_id order by station_id, report_datetime) checker
+from dbo.station_status
+)
+update temp
+set prev_bikes_any_available = checker -- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now); 
+-- where station_id = '000_test' and capacity is null
+
+-- Final column: calculate the difference in bikes available between readings
+
+update dbo.station_status
+set bikes_any_delta =
+	cast(num_bikes_any_available as smallint) - prev_bikes_any_available -- where station_id = '000_test'
+	-- Unfortunately, later deletion of entries with duration_flag = 1 makes value of bikes_any_delta possibly look incorrect when there is a large time gap.
+	-- E.g. a delta could be '5' even if 'previous' reading (which was actually a long time before) was not a diff of 5.
+	-- The user will just have to trust that the difference is correct, and refers to a non-displayed value
+-- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now);
 
  /*
 Move this here because will be wiping report_time in next steps.
@@ -235,8 +260,8 @@ probably need to do as measures in PBI or reconfigure SQL script)
 */
 
 update dbo.station_status
-set [weekday] = case when datepart(dw, report_date) in (1, 7) then 0 else 1 end
-where cast(retrieved_at as date) = @today; 
+set [weekday] = case when datepart(dw, report_date) in (1, 7) then 0 else 1 end -- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now); 
 --where station_id = '000_test' and capacity is null
 
 /*
@@ -255,8 +280,8 @@ set rush_hour =
 		when ((report_time >= '07:10:00.000' and report_time <= '09:05:00.000') or (report_time >= '17:10:00.000' and report_time <= '19:05:00.000'))
 		and weekday = 1
 		then 1 else 0
-	end
-where cast(retrieved_at as date) = @today; 
+	end -- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now); 
 --where station_id = '000_test' and capacity is null
 
 -- Retrieve capacity from station_info
@@ -266,14 +291,14 @@ set stat.capacity = info.capacity
 from dbo.station_info info
 	join station_status stat
 		on info.info_id = stat.stn_info_id
-where cast(retrieved_at as date) = @today; -- once up and running, only want to use compute to update a limited set of rows
+where retrieved_at >= dateadd(hour, -1, @now); -- once up and running, only want to use compute to update a limited set of rows
 --where stat.station_id = '000_test' and stat.capacity is null
 
 -- Calculate % of docks which are available
 
 update dbo.station_status
-set pc_docks_available = (1.0 * num_docks_available / capacity)
-where cast(retrieved_at as date) = @today; -- or station_id = '000_test'; 
+set pc_docks_available = (1.0 * num_docks_available / capacity) -- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now); -- or station_id = '000_test'; 
 
 -- Categorical definitions of above percentages
 
@@ -289,30 +314,31 @@ set availability_group =
 		when pc_docks_available >= 0.2 and pc_docks_available < 0.8 then 'in use'
 		when (pc_docks_available >= 0.8 and pc_docks_available < 1) or num_bikes_any_available between 1 and 2 then 'near empty'
 		when num_docks_available = capacity then 'empty'
-	end
-where cast(retrieved_at as date) = @today; -- or station_id = '000_test';
+	end -- where station_id = '000_test'
+where retrieved_at >= dateadd(hour, -1, @now); -- or station_id = '000_test';
 
 /*
-Generate fact table which accounts for edge cases (overnights),
+Generate final fact table dbo.station_status_by_day which accounts for edge cases (overnights),
 whereby an overnight entry has a portion attributed to yesterday (yday), and also today.
 
-As we split edge cases into two rows, also replace original report_date column, and drop report_time (won't make sense anymore in the case of overnights),
-and prev_report_datetime has already served its purpose as a helper column.
+As we split edge cases into two rows, also replace original report_date column,
+and drop report_time (won't make sense anymore in the case of overnights),
+as well as prev_report_datetime which has already served its purpose as a helper column.
 
---> Define new table dbo.station_status_by_day to encompass this data - technically not necessarily 'by day' if there is a > 24hr gap in recordings
+--> Note that "dbo.station_status_by_day" won't be 'by day' if there is a > 24hr gap in recordings
 (there would be no rows with the interim date(s)).
 */
 
 -- truncate table dbo.station_status_by_day
 
 insert into dbo.station_status_by_day
-(stn_info_id, station_id, is_installed, num_bikes_any_available, num_bikes_pedal_available, num_bikes_elec_available, is_renting, num_docks_available, is_returning,
+(stn_info_id, station_id, is_installed, num_bikes_any_available, num_bikes_pedal_available, num_bikes_elec_available, bikes_any_delta, is_renting, num_docks_available, is_returning,
 report_date, weekday, rush_hour, retrieved_at, duration_seconds,
 --duration_flag,
 capacity, pc_docks_available, availability_group)
 
 select
-    stn_info_id, station_id, is_installed, num_bikes_any_available, num_bikes_pedal_available, num_bikes_elec_available, is_renting, num_docks_available, is_returning,
+    stn_info_id, station_id, is_installed, num_bikes_any_available, num_bikes_pedal_available, num_bikes_elec_available, bikes_any_delta, is_renting, num_docks_available, is_returning,
 	-- report_date, report_time,
 	DATEADD(DAY, -1, report_date), -- the true report_date of the 'previous night' portion of an overnight entry is yday
 	weekday, rush_hour, retrieved_at, -- prev_report_datetime,
@@ -322,12 +348,16 @@ from dbo.station_status ss
 where
 	status_duration_yday is not null -- special case where reading contains a 'previous night' portion due to overnight nature
 	and duration_flag = 0 -- we can exclude these now. Only point to keep them in station_status was to ensure prev_report_datetime is accurate
-	and not exists (select 1 from dbo.station_status_by_day byday where ss.station_id = byday.station_id and ss.retrieved_at = byday.retrieved_at)
+	and not exists (select 1 from dbo.station_status_by_day byday where ss.station_id = byday.station_id and ss.retrieved_at = byday.retrieved_at)	-- don't add existing
 
-union all
+union all -- allows dupes but this is fine as seen in tests ... the 'splitting' of overnights does not confuse the logic
 
 select
-    stn_info_id, station_id, is_installed, num_bikes_any_available, num_bikes_pedal_available, num_bikes_elec_available, is_renting, num_docks_available, is_returning,
+    stn_info_id, station_id, is_installed, num_bikes_any_available, num_bikes_pedal_available, num_bikes_elec_available,
+	case when status_duration_yday is not null then 0 else bikes_any_delta end,
+	-- Need to force the 'day 2' of an overnight entry to have bikes_any_delta = 0.
+	-- This might be broken if e.g. at 23:50, the delta was 7. After split into day 1 / day 2, day 2 also has delta = 7, but actually, it should be zero (did not change at midnight)
+	is_renting, num_docks_available, is_returning,
 	-- report_date, report_time,
 	report_date,
 	weekday, rush_hour, retrieved_at, -- prev_report_datetime,
@@ -336,14 +366,25 @@ select
 from dbo.station_status ss
 where
 	duration_flag = 0 -- we can exclude these now. Only point to keep them in station_status is to ensure prev_report_datetime is accurate
-	and not exists (select 1 from dbo.station_status_by_day byday where ss.station_id = byday.station_id and ss.retrieved_at = byday.retrieved_at)
+	and not exists (select 1 from dbo.station_status_by_day byday where ss.station_id = byday.station_id and ss.retrieved_at = byday.retrieved_at) -- don't add existing
 
+	/*
+-- select top 100 station_id, retrieved_at, count(*) from dbo.station_status_by_day group by station_id, retrieved_at order by count(*) desc, station_id, retrieved_at;
+select top 100 * from dbo.station_status where status_duration_yday is not null --and duration_flag = 0
+order by station_id, retrieved_at;
+
+select top 100 station_id, num_bikes_any_available, bikes_any_delta, num_bikes_pedal_available, num_bikes_elec_available, num_docks_available, report_date,
+retrieved_at, duration_seconds, capacity, pc_docks_available, availability_group
+from dbo.station_status_by_day
+-- where station_id = '000_test'
+order by station_id, retrieved_at, report_date;
+*/
 
 -- If an overnight entry was split across Sunday/Monday, the 'weekday' flag is now incorrect after splitting as per above step. Need to reset:
 
 update dbo.station_status_by_day
 set [weekday] = case when datepart(dw, report_date) in (1, 7) then 0 else 1 end
-where cast(retrieved_at as date) = @today -- or station_id = '000_test';
+where retrieved_at >= dateadd(hour, -1, @now) -- or station_id = '000_test';
 
 -- No need correct rush hour, as overnights will always have rush_hour = 0
 

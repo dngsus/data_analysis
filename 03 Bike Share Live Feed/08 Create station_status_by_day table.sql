@@ -28,3 +28,6 @@ CREATE TABLE [dbo].[station_status_by_day](
 	[availability_group] [varchar](50) NULL
 ) ON [PRIMARY]
 GO
+
+ALTER table [station_status_by_day] 
+ADD [bikes_any_delta] [smallint];

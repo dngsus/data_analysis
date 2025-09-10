@@ -557,3 +557,171 @@ Invalid column name 'duration_flag'.
 
 (1671 rows affected)
 05/08/2025 17:14:19.43: SQL procedure finished 
+09/09/2025 11:29:54.07: Starting script 
+09/09/2025 11:30:14.02: Python script finished 
+
+(21 rows affected)
+
+(8 rows affected)
+
+(9 rows affected)
+
+(1 rows affected)
+
+(0 rows affected)
+
+(815 rows affected)
+
+(0 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(0 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(13 rows affected)
+
+(13 rows affected)
+09/09/2025 11:30:16.31: SQL procedure finished 
+09/09/2025 11:32:59.94: Starting script 
+09/09/2025 11:33:03.40: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(0 rows affected)
+
+(1630 rows affected)
+
+(0 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(0 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(815 rows affected)
+
+(828 rows affected)
+09/09/2025 11:33:05.47: SQL procedure finished 
+09/09/2025 11:53:32.34: Starting script 
+09/09/2025 11:53:35.34: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(0 rows affected)
+
+(2445 rows affected)
+
+(0 rows affected)
+
+(2445 rows affected)
+
+(2445 rows affected)
+
+(2445 rows affected)
+
+(2445 rows affected)
+
+(2445 rows affected)
+
+(2445 rows affected)
+
+(2445 rows affected)
+
+(2445 rows affected)
+
+(2445 rows affected)
+
+(1615 rows affected)
+
+(2445 rows affected)
+
+(2445 rows affected)
+
+(815 rows affected)
+
+(1643 rows affected)
+09/09/2025 11:53:36.27: SQL procedure finished 
+09/09/2025 11:56:18.25: Starting script 
+09/09/2025 11:56:21.07: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(0 rows affected)
+
+(3260 rows affected)
+
+(3245 rows affected)
+
+(3260 rows affected)
+
+(3260 rows affected)
+
+(3260 rows affected)
+
+(3260 rows affected)
+
+(3260 rows affected)
+
+(3260 rows affected)
+
+(3260 rows affected)
+
+(3260 rows affected)
+
+(3260 rows affected)
+
+(3245 rows affected)
+
+(3260 rows affected)
+
+(3260 rows affected)
+
+(815 rows affected)
+
+(2458 rows affected)
+09/09/2025 11:56:22.15: SQL procedure finished 
