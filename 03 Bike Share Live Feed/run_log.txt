@@ -725,3 +725,89 @@ Invalid column name 'duration_flag'.
 
 (2458 rows affected)
 09/09/2025 11:56:22.15: SQL procedure finished 
+11/09/2025 15:06:21.31: Starting script 
+11/09/2025 15:06:42.08: Python script finished 
+
+(3 rows affected)
+
+(3 rows affected)
+
+(9 rows affected)
+
+(1 rows affected)
+
+(0 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+
+(0 rows affected)
+
+(0 rows affected)
+11/09/2025 15:06:44.56: SQL procedure finished 
+11/09/2025 15:15:10.28: Starting script 
+11/09/2025 15:15:15.24: Python script finished 
+
+(0 rows affected)
+
+(0 rows affected)
+
+(0 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(1630 rows affected)
+
+(815 rows affected)
+
+(815 rows affected)
+11/09/2025 15:15:17.78: SQL procedure finished 

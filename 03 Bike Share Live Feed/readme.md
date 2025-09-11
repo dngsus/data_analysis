@@ -4,19 +4,11 @@
 
 **Brief**
 
-Quasi-live (currently configured to run at most every 15 minutes unless manually triggered) monitoring of regional bikeshare station statuses based on station capacity using data from periodic API calls to enable sustained operational excellence.
+Data pipeline to pull then transform data from API calls made to U.S. bikeshare provider to enable analysis of station/region activity and occupancy.
 
-Note: in-progress.
-
-VIDEO WALK-THROUGH 2025-06-06: https://vimeo.com/1091209127/572a70cd82?share=copy
+VIDEO WALK-THROUGH 2025-09-11: https://vimeo.com/1117812924?share=copy
 
 **Detail**
 
-...
-
-**For consideration**
-
-- Here, more % of time spent 'in use' is taken to mean a station has a healthy inflow and outflow of bikes.
-However, a station could  be abandoned and left in status with constant 50% fullness.
-So, consider way to describe stations with lack of movement over extended times.
-By this same logic, a station spending majority time in an even split of near empty and near full is the healthiest - current PBI does not highlight this well.
+The main intent of this project was to practice pulling in 'live' data and housing it appropriately in a database.<br>
+There are also transformations applied to enable analytics, but as mentioned in the video above, the 'analytics' of this project are in concept only - the PBI report is just a showcase of potential analytical output.
