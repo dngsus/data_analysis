@@ -1,0 +1,43 @@
+{
+	"name": "dataflow_source",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "SourceDataset_0py",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          Model as string,",
+				"          Displ as string,",
+				"          Cyl as string,",
+				"          Trans as string,",
+				"          Drive as string,",
+				"          Fuel as string,",
+				"          {Sales Area} as string,",
+				"          Stnd as string,",
+				"          {Stnd Description} as string,",
+				"          {Underhood ID} as string,",
+				"          {Veh Class} as string,",
+				"          {Air Pollution Score} as string,",
+				"          {City MPG} as string,",
+				"          {Hwy MPG} as string,",
+				"          {Cmb MPG} as string,",
+				"          {Greenhouse Gas Score} as string,",
+				"          SmartWay as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> source1"
+			]
+		}
+	}
+}

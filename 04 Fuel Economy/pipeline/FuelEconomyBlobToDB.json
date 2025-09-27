@@ -69,211 +69,7 @@
 									"type": "String"
 								},
 								"sink": {
-									"name": "model_year"
-								}
-							},
-							{
-								"source": {
-									"name": "Model",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "model",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Displ",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "displacement",
-									"type": "Decimal",
-									"physicalType": "decimal",
-									"scale": 1,
-									"precision": 2
-								}
-							},
-							{
-								"source": {
-									"name": "Cyl",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "cylinders",
-									"type": "Byte",
-									"physicalType": "tinyint"
-								}
-							},
-							{
-								"source": {
-									"name": "Trans",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "transmission",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Drive",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "drive",
-									"type": "String",
-									"physicalType": "char"
-								}
-							},
-							{
-								"source": {
-									"name": "Fuel",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "fuel",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Sales Area",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "cert_region",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Stnd",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "standard_code",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Stnd Description",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "standard_code_desc",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Underhood ID",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "underhood_ID",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Veh Class",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "EPA_vehicle_class",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Air Pollution Score",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "air_pollution_score",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "City MPG",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "city_MPG",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Hwy MPG",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "highway_MPG",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Cmb MPG",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "combined_MPG",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "Greenhouse Gas Score",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "greenhouse_gas_rating",
-									"type": "String",
-									"physicalType": "nvarchar"
-								}
-							},
-							{
-								"source": {
-									"name": "SmartWay",
-									"type": "String",
-									"physicalType": "String"
-								},
-								"sink": {
-									"name": "smartway",
+									"name": "model_year",
 									"type": "String",
 									"physicalType": "nvarchar"
 								}
@@ -490,6 +286,30 @@
 						"value": "@activity('Get FileName MetaData').output.childItems[0].name",
 						"type": "Expression"
 					}
+				}
+			},
+			{
+				"name": "Data flow1",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "dataflow_source",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
 				}
 			}
 		],
