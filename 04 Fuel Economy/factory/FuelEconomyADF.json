@@ -1,0 +1,9 @@
+{
+	"name": "FuelEconomyADF",
+	"location": "uksouth",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "87446db5-1c79-448b-a831-e85738599a12",
+		"tenantId": "c9efb807-363f-4113-a42e-33cbb679dcab"
+	}
+}

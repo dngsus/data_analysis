@@ -1,0 +1,508 @@
+{
+	"name": "FuelEconomyBlobToDB",
+	"properties": {
+		"description": "Take csv from blob source to SQL database sink",
+		"activities": [
+			{
+				"name": "Copy From CSV to SQL",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "filename_var",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [
+					{
+						"name": "Source",
+						"value": "fueleconomyblob//"
+					},
+					{
+						"name": "Destination",
+						"value": "dbo.fuel_economy_stg"
+					}
+				],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"additionalColumns": [
+							{
+								"name": "model_year",
+								"value": {
+									"value": "@variables('model_year_var')",
+									"type": "Expression"
+								}
+							}
+						],
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "source",
+							"wildcardFileName": "*.csv",
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings",
+							"skipLineCount": 0
+						}
+					},
+					"sink": {
+						"type": "AzureSqlSink"
+					},
+					"enableStaging": false,
+					"validateDataConsistency": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "model_year",
+									"type": "String"
+								},
+								"sink": {
+									"name": "model_year"
+								}
+							},
+							{
+								"source": {
+									"name": "Model",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "model",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Displ",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "displacement",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 1,
+									"precision": 2
+								}
+							},
+							{
+								"source": {
+									"name": "Cyl",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "cylinders",
+									"type": "Byte",
+									"physicalType": "tinyint"
+								}
+							},
+							{
+								"source": {
+									"name": "Trans",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "transmission",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Drive",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "drive",
+									"type": "String",
+									"physicalType": "char"
+								}
+							},
+							{
+								"source": {
+									"name": "Fuel",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "fuel",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Sales Area",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "cert_region",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Stnd",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "standard_code",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Stnd Description",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "standard_code_desc",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Underhood ID",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "underhood_ID",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Veh Class",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "EPA_vehicle_class",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Air Pollution Score",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "air_pollution_score",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "City MPG",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "city_MPG",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Hwy MPG",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "highway_MPG",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Cmb MPG",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "combined_MPG",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "Greenhouse Gas Score",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "greenhouse_gas_rating",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "SmartWay",
+									"type": "String",
+									"physicalType": "String"
+								},
+								"sink": {
+									"name": "smartway",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							}
+						],
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_0py",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "DestinationDataset_0py",
+						"type": "DatasetReference"
+					}
+				]
+			},
+			{
+				"name": "Get FileName MetaData",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "SourceDataset_0py",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "DelimitedTextReadSettings"
+					}
+				}
+			},
+			{
+				"name": "Copy CSV from Source to Archive",
+				"type": "Copy",
+				"dependsOn": [
+					{
+						"activity": "Copy From CSV to SQL",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"source": {
+						"type": "DelimitedTextSource",
+						"storeSettings": {
+							"type": "AzureBlobStorageReadSettings",
+							"recursive": true,
+							"wildcardFolderPath": "source",
+							"wildcardFileName": {
+								"value": "@variables('filename_var')",
+								"type": "Expression"
+							},
+							"enablePartitionDiscovery": false
+						},
+						"formatSettings": {
+							"type": "DelimitedTextReadSettings"
+						}
+					},
+					"sink": {
+						"type": "DelimitedTextSink",
+						"storeSettings": {
+							"type": "AzureBlobStorageWriteSettings"
+						},
+						"formatSettings": {
+							"type": "DelimitedTextWriteSettings",
+							"quoteAllText": true,
+							"fileExtension": ".txt"
+						}
+					},
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"typeConversion": true,
+						"typeConversionSettings": {
+							"allowDataTruncation": true,
+							"treatBooleanAsNumber": false
+						}
+					}
+				},
+				"inputs": [
+					{
+						"referenceName": "SourceDataset_0py",
+						"type": "DatasetReference"
+					}
+				],
+				"outputs": [
+					{
+						"referenceName": "archived_files",
+						"type": "DatasetReference",
+						"parameters": {
+							"FileName": {
+								"value": "@variables('filename_var')",
+								"type": "Expression"
+							}
+						}
+					}
+				]
+			},
+			{
+				"name": "Delete CSV from Source",
+				"type": "Delete",
+				"dependsOn": [
+					{
+						"activity": "Copy CSV from Source to Archive",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "SourceDataset_0py",
+						"type": "DatasetReference"
+					},
+					"logStorageSettings": {
+						"linkedServiceName": {
+							"referenceName": "AzureBlobStorage_FuelEconomyADF",
+							"type": "LinkedServiceReference"
+						}
+					},
+					"enableLogging": true,
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"wildcardFileName": "*.csv",
+						"enablePartitionDiscovery": false
+					}
+				}
+			},
+			{
+				"name": "model_year_var",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "Get FileName MetaData",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "model_year_var",
+					"value": {
+						"value": "@concat('20',substring(activity('Get FileName MetaData').output.childItems[0].name, 10, 2))",
+						"type": "Expression"
+					}
+				}
+			},
+			{
+				"name": "filename_var",
+				"type": "SetVariable",
+				"dependsOn": [
+					{
+						"activity": "model_year_var",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"policy": {
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"variableName": "filename_var",
+					"value": {
+						"value": "@activity('Get FileName MetaData').output.childItems[0].name",
+						"type": "Expression"
+					}
+				}
+			}
+		],
+		"variables": {
+			"model_year_var": {
+				"type": "String"
+			},
+			"filename_var": {
+				"type": "String"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2025-09-27T11:31:12Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}

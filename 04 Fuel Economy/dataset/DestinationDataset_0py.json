@@ -1,0 +1,132 @@
+{
+	"name": "DestinationDataset_0py",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureSqlDatabase_FuelEconomyADF",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [
+			{
+				"name": "model_year",
+				"type": "int",
+				"precision": 10,
+				"scale": 0
+			},
+			{
+				"name": "model",
+				"type": "nvarchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "displacement",
+				"type": "decimal",
+				"precision": 2,
+				"scale": 1
+			},
+			{
+				"name": "cylinders",
+				"type": "tinyint",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "transmission",
+				"type": "nvarchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "drive",
+				"type": "char",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "underhood_ID",
+				"type": "nvarchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "city_MPG",
+				"type": "tinyint",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "highway_MPG",
+				"type": "tinyint",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "combined_MPG",
+				"type": "tinyint",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "greenhouse_gas_rating",
+				"type": "tinyint",
+				"precision": 3,
+				"scale": 0
+			},
+			{
+				"name": "smartway",
+				"type": "nvarchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "combined_CO2",
+				"type": "smallint",
+				"precision": 5,
+				"scale": 0
+			},
+			{
+				"name": "fuel",
+				"type": "nvarchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "cert_region",
+				"type": "nvarchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "standard_code",
+				"type": "nvarchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "standard_code_desc",
+				"type": "nvarchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "EPA_vehicle_class",
+				"type": "nvarchar",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "air_pollution_score",
+				"type": "tinyint",
+				"precision": 3,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "fuel_economy_stg"
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

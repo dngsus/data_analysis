@@ -1,0 +1,93 @@
+{
+	"name": "SourceDataset_0py",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzureBlobStorage_FuelEconomyADF",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobStorageLocation",
+				"folderPath": "source",
+				"container": "fueleconomyblob"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "Model",
+				"type": "String"
+			},
+			{
+				"name": "Displ",
+				"type": "String"
+			},
+			{
+				"name": "Cyl",
+				"type": "String"
+			},
+			{
+				"name": "Trans",
+				"type": "String"
+			},
+			{
+				"name": "Drive",
+				"type": "String"
+			},
+			{
+				"name": "Fuel",
+				"type": "String"
+			},
+			{
+				"name": "Sales Area",
+				"type": "String"
+			},
+			{
+				"name": "Stnd",
+				"type": "String"
+			},
+			{
+				"name": "Stnd Description",
+				"type": "String"
+			},
+			{
+				"name": "Underhood ID",
+				"type": "String"
+			},
+			{
+				"name": "Veh Class",
+				"type": "String"
+			},
+			{
+				"name": "Air Pollution Score",
+				"type": "String"
+			},
+			{
+				"name": "City MPG",
+				"type": "String"
+			},
+			{
+				"name": "Hwy MPG",
+				"type": "String"
+			},
+			{
+				"name": "Cmb MPG",
+				"type": "String"
+			},
+			{
+				"name": "Greenhouse Gas Score",
+				"type": "String"
+			},
+			{
+				"name": "SmartWay",
+				"type": "String"
+			}
+		]
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
