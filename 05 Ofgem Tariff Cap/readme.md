@@ -4,14 +4,14 @@
 3) Commentary on effects on consumers and suppliers
 
 # Summary
-- See video for full insights:
+- See video for full insights: https://youtu.be/Fc4k31dCWwI
 - Tariff cap values are reflective of exogenous shocks and of a new higher (as compared to before the energy crisis) equilibrium sustained by institutional factors
 - Suppliers now (following the crisis) operate in a more (as compared to before the crisis) high-risk, high-opportunity environment
 - Consumers receive downstream benefits of supplier solvency in terms of consumer choice, but may be motivated by the risky environment to seek fixed tariffs or reduce consumption
 - Mistrust in the tariff cap system may be fomented both by the overall higher levels and the way in which these higher levels are driven by certain components which could be seen as focused solely on benefitting suppliers
 
 # Additional
-## Further note on 'DRC' component not mentioned in video: https://youtu.be/Fc4k31dCWwI
+## Further note on 'DRC' component not mentioned in video:
 - As above, some tariff cap components may be perceived, rightfully or wrongfully, to benefit suppliers only and not consumers
 - Criticisms have been applied to debt-related initiatives by Ofgem
 - Disclaimer: source is an old article referring to a pre-DRC initiative. Further research needed to see if DRC fixed the issues below
