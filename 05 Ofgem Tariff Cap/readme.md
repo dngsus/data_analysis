@@ -18,3 +18,7 @@
 - (1) Despite debt-related allowance, customers don't have debts written off, remitted, or payments matched
 - (2) No specific covenants insisting that suppliers must use savings from the debt allowance to support in-debt customers
 - Source: https://moneyadvicetrust.org/wp-content/uploads/2023/11/Ofgem-Additional-debt-related-costs-allowance-policy-11.pdf
+
+# Source
+- https://www.ofgem.gov.uk/energy-regulation/domestic-and-non-domestic/energy-pricing-rules/energy-price-cap/energy-price-cap-default-tariff-levels
+- "Energy price cap levels: 1 July to 30 September 2025 [PDF, 247.17KB]"
