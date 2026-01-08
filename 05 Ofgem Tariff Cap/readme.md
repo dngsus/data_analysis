@@ -5,8 +5,9 @@
 
 # Summary
 - See video for full insights: https://youtu.be/Fc4k31dCWwI
-- Tariff cap values are reflective of exogenous shocks and of a new higher (as compared to before the energy crisis) equilibrium sustained by institutional factors
-- Suppliers now (following the crisis) operate in a more (as compared to before the crisis) high-risk, high-opportunity environment
+- The major movements, aka the energy crisis, in recent years of tariff cap values have resulted from exogenous shocks
+- The equilibrium that has emerged post-crisis is higher than that which existed prior - institutional forces sustain this
+- Relative to the pre-Crisis period, the environment for Suppliers is of a high-risk, high-opportunity nature
 - Consumers receive downstream benefits of supplier solvency in terms of consumer choice, but may be motivated by the risky environment to seek fixed tariffs or reduce consumption
 - Mistrust in the tariff cap system may be fomented both by the overall higher levels and the way in which these higher levels are driven by certain components which could be seen as focused solely on benefitting suppliers
 
