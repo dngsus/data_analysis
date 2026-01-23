@@ -4,7 +4,7 @@
 3) Commentary on effects on consumers and suppliers
 
 # Summary
-- See video for full insights: https://youtu.be/Fc4k31dCWwI
+- See video for full insights: [https://youtu.be/Fc4k31dCWwI](https://www.youtube.com/watch?v=Fc4k31dCWwI)
 - The major movements, aka the energy crisis, in recent years of tariff cap values have resulted from exogenous shocks
 - The equilibrium that has emerged post-crisis is higher than that which existed prior - institutional forces sustain this
 - Relative to the pre-Crisis period, the environment for Suppliers is of a high-risk, high-opportunity nature
